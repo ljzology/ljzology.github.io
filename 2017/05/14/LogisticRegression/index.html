@@ -13,7 +13,7 @@
 <meta property="og:site_name" content="LJZ&#39;s blog">
 <meta property="og:description" content="什么是逻辑回归 线性回归是直接将特征值和其对应的概率相乘得到一个结果，逻辑回归是在这个结果上加个逻辑函数（Sigmod函数）。 就相当于y=f(x)，表明自变量x（特征）与因变量y的关系。 Logistic回归的因变量可以是二分类，也能使多分类（Softmax回归），但二分类在实际中更常用，也更容易解释。 Logistic回归的自变量可以使连续的（如身高，体重，年龄），也可以离散的（如性别、学">
 <meta property="og:image" content="http://yoursite.com/2017/05/14/LogisticRegression/overfiting.png">
-<meta property="og:updated_time" content="2017-05-16T08:28:12.788Z">
+<meta property="og:updated_time" content="2017-05-16T08:46:07.693Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="逻辑回归总结">
 <meta name="twitter:description" content="什么是逻辑回归 线性回归是直接将特征值和其对应的概率相乘得到一个结果，逻辑回归是在这个结果上加个逻辑函数（Sigmod函数）。 就相当于y=f(x)，表明自变量x（特征）与因变量y的关系。 Logistic回归的因变量可以是二分类，也能使多分类（Softmax回归），但二分类在实际中更常用，也更容易解释。 Logistic回归的自变量可以使连续的（如身高，体重，年龄），也可以离散的（如性别、学">
@@ -44,7 +44,7 @@
         
           <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
@@ -123,12 +123,12 @@
 <p>梯度变为： <span class="math display">\[\frac{\delta}{\delta \theta_j}J(x)=\frac{1}{m}\sum_{i=1}^m{[h_\theta(x)-y_i]x_j + \frac{\lambda}{m} \theta_j}\]</span> 权值<span class="math inline">\(\Theta\)</span>的更新变为： <span class="math display">\[\theta_j=\theta_j-\frac{\alpha}{m}\sum_{i=1}^m{[h_\theta(x)-y_i]x_j} - \frac{\lambda}{m} \theta_j\]</span></p>
 <h3 id="代码展示">代码展示</h3>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">def logisticRegression(data, alpha, lamda):</div><div class="line">    n = len(data[0]) - 1</div><div class="line">    w = [0 <span class="keyword">for</span> x <span class="keyword">in</span> range(n)] <span class="comment">#初始化权重列表</span></div><div class="line">    w2 = [0 <span class="keyword">for</span> x <span class="keyword">in</span> range(n)]</div><div class="line">    <span class="keyword">for</span> <span class="built_in">times</span> <span class="keyword">in</span> range(10000):<span class="comment">#迭代10000次</span></div><div class="line">        <span class="keyword">for</span> d <span class="keyword">in</span> data:</div><div class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</div><div class="line">                w2[i] = w[i]-alpha*(h(w,d)<span class="_">-d</span>[n])*d[i]-lamda*w[i]</div><div class="line">                <span class="comment">#h(w,d)是决策函数，d[n]是类别(0或1)</span></div><div class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</div><div class="line">                w[i] = w2[i]</div><div class="line">    <span class="built_in">return</span> w</div></pre></td></tr></table></figure>
-<p>参考资料：<br> [1]《统计学习方法》，李航著，2012<br> [2]《机器学习》，周志华著，2016<br> [3] http://blog.csdn.net/pakko/article/details/37878837<br> [4] http://blog.csdn.net/walegahaha/article/details/50471417<br></p>
+<p>参考资料：<br> [1]《统计学习方法》，李航著，2012<br> [2]《机器学习》，周志华著，2016<br> [3] [http://blog.csdn.net/pakko/article/details/37878837]<br> [4] [http://blog.csdn.net/walegahaha/article/details/50471417]<br></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/05/14/LogisticRegression/" data-id="cj2rarum00007tcn78xew7of5" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/05/14/LogisticRegression/" data-id="cj2rbanyd0007skn7spkc5l4m" class="article-share-link">分享</a>
       
       
       
@@ -141,7 +141,7 @@
 <nav id="article-nav">
   
     <a href="/2017/05/14/Feature-Selection/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
+      <strong class="article-nav-caption">上一篇</strong>
       <div class="article-nav-title">
         
           Feature Selection
@@ -151,7 +151,7 @@
   
   
     <a href="/2017/05/13/博客搭建踩坑记录/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
+      <strong class="article-nav-caption">下一篇</strong>
       <div class="article-nav-title">博客搭建踩坑记录</div>
     </a>
   
@@ -183,7 +183,7 @@
     
       <div class="widget" id="toc-widget-fixed">
       
-        <strong class="toc-title">Content</strong>
+        <strong class="toc-title">文章目录</strong>
         <div class="toc-widget-list">
               <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是逻辑回归"><span class="toc-number">1.</span> <span class="toc-text">什么是逻辑回归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#构建逻辑回归的步骤"><span class="toc-number">2.</span> <span class="toc-text">构建逻辑回归的步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#构造分类决策函数hx"><span class="toc-number">2.1.</span> <span class="toc-text">构造分类决策函数h(x)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#构造损失函数jx"><span class="toc-number">2.2.</span> <span class="toc-text">构造损失函数J(x)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#求解使jx最小的theta"><span class="toc-number">2.3.</span> <span class="toc-text">求解使J(x)最小的\(\Theta\)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#加入正则项"><span class="toc-number">2.4.</span> <span class="toc-text">加入正则项</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码展示"><span class="toc-number">3.</span> <span class="toc-text">代码展示</span></a></li></ol>
           </div>
@@ -215,10 +215,10 @@
   <div class="outer">
     <div id="footer-left">
       &copy; 2014 - 2017 ljz&nbsp;|&nbsp;
-      Theme by <a href="https://github.com/giscafer/hexo-theme-cafe/" target="_blank">Cafe</a>
+      主题 <a href="https://github.com/giscafer/hexo-theme-cafe/" target="_blank">Cafe</a>
     </div>
      <div id="footer-right">
-      Contact&nbsp;|&nbsp;ljzolgy@163.com
+      联系方式&nbsp;|&nbsp;ljzolgy@163.com
     </div>
   </div>
 </footer>
