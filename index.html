@@ -69,6 +69,114 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Feature-Selection" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/05/14/Feature-Selection/" class="article-date">
+  <time datetime="2017-05-14T13:34:54.000Z" itemprop="datePublished">2017-05-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/14/Feature-Selection/">Feature Selection</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <p>参考资料：https://yanyinhong.github.io/2017/05/02/How-to-insert-image-in-hexo-post/</p>
+<p><img src="/2017/05/14/Feature-Selection/mi6.jpg" alt="mi6 logo" withd="10%" height="10%"></p>
+<img src="/2017/05/14/Feature-Selection/mi6.jpg" alt="mi6" title="mi6">
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/05/14/Feature-Selection/" data-id="cj2oqtc0n0002n4n7fbn1npf8" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
+    <article id="post-LogisticRegression" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/05/14/LogisticRegression/" class="article-date">
+  <time datetime="2017-05-14T06:31:01.000Z" itemprop="datePublished">2017-05-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/14/LogisticRegression/">逻辑回归总结</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <h3 id="什么是逻辑回归">什么是逻辑回归</h3>
+<p>线性回归是直接将特征值和其对应的概率相乘得到一个结果，逻辑回归是在这个结果上加个逻辑函数（Sigmod函数）。 就相当于y=f(x)，表明自变量x（特征）与因变量y的关系。</p>
+<p>Logistic回归的因变量可以是二分类，也能使多分类（Softmax回归），但二分类在实际中更常用，也更容易解释。 Logistic回归的自变量可以使连续的（如身高，体重，年龄），也可以离散的（如性别、学历）。</p>
+<h3 id="构建逻辑回归的步骤">构建逻辑回归的步骤</h3>
+<ul>
+<li>构造预测函数h(x)=f(thetax)</li>
+<li>构造目标函数J(x),即损失函数</li>
+<li>利用梯度下降法求解使目标函数最小的 theta</li>
+</ul>
+<h4 id="构造分类决策函数hx">构造分类决策函数h(x)</h4>
+<p>线性分类的边界是：<span class="math display">\[f(x) = \Theta^T X = \sum_{i=1}^n \theta_i x_i\]</span> 逻辑回归的分类在此基础上套了个<a href="https://en.wikipedia.org/wiki/Sigmoid_function" title="sigmoid function" target="_blank" rel="external">Sigmod函数</a>得到预测函数: <span class="math display">\[h_\theta(x)=\frac{1}{1+e^{(-\Theta^T X)}}\]</span> 函数<span class="math inline">\(h_\theta\)</span>的含义为：当分类为1时的概率，所以对于输入x，分类为1和0的概率分别为： <span class="math display">\[P(y=1 | X;\Theta)=h_\theta(x)\]</span> <span class="math display">\[P(y=0 | X;\Theta)=1-h_\theta(x)\]</span> 可以写为： <span class="math display">\[P(y | X; \Theta) = (h_\theta(x)^y)(1-h_\theta(x))^{(1-y)} \]</span></p>
+<h4 id="构造损失函数jx">构造损失函数J(x)</h4>
+<p>似然函数l(x)为: <span class="math display">\[l(x)= \prod_{i=1}^m p_i = \prod_{i=1}^m h_\theta(x)^{y_i}(1-h_\theta(x))^{(1-y_i)}\]</span> 对数似然L(x): <span class="math display">\[L(x)=\log{l(x)}=\log\prod_{i=1}^m h_\theta(x)^{y_i}(1-h_\theta(x))^{(1-y_i)}\]</span> <span class="math display">\[=\sum_{i=1}^m{(y_i \log{h_\theta(x)}+(1-y_i)\log(1-h_\theta(x)))}\]</span> 损失函数J(x):</p>
+<p>最大似然估计求使L(x)最大的<span class="math inline">\(\Theta\)</span>，需要用到梯度上升算法。 <span class="math display">\[J(x)=-\frac{1}{m} L(x)\]</span> 因为乘了个<span class="math inline">\(-\frac{1}{m}\)</span>，所以要用梯度下降法求使J(x)最小的<span class="math inline">\(\Theta\)</span>。</p>
+<h4 id="求解使jx最小的theta">求解使J(x)最小的<span class="math inline">\(\Theta\)</span></h4>
+<p>使用梯度下降法求J(x),<span class="math inline">\(\Theta\)</span>的更新过程为： <span class="math display">\[\theta_j=\theta_j-\alpha\frac{\delta}{\delta \theta_j}J(x)\]</span> 其中，<span class="math inline">\(\alpha\)</span>为步长，<span class="math inline">\(\frac{\delta}{\delta \theta_j}J(x)\)</span>为梯度。</p>
+<p><span class="math display">\[\frac{\delta}{\delta \theta_j}J(x)=-\frac{1}{m}\sum_{i=1}^m{\frac{\delta}{\delta \theta_j}{(y_i \log{h_\theta(x)}+(1-y_i)\log(1-h_\theta(x)))}}\]</span> <span class="math display">\[=-\frac{1}{m}\sum_{i=1}^m{(y_i \frac{1}{h_\theta(x)}+(1-y_i)\frac{-1}{1-h_\theta(x)})\frac{\delta h_\theta(x)}{\delta \theta_j}}\]</span> 其中 <span class="math display">\[\frac{\delta h_\theta(x)}{\delta \theta_j}=\frac{\delta}{\delta \theta_j}(1+\frac{1}{1+e^{-\Theta^T X}})\]</span> <span class="math display">\[=h_\theta(x)(1-h_\theta(x))\frac{\delta \Theta^T X}{\delta \theta_j}=h_\theta(x)(1-h_\theta(x))x_j\]</span> 所以： <span class="math display">\[\frac{\delta}{\delta \theta_j}J(x)=-\frac{1}{m}\sum_{i=1}^m{(y_i \frac{1}{h_\theta(x)}+(1-y_i)\frac{-1}{1-h_\theta(x)})*h_\theta(x)(1-h_\theta(x))x_j}\]</span> <span class="math display">\[=-\frac{1}{m}\sum_{i=1}^m{[y_i(1-h_\theta(x))-(1-y_i)h_\theta(x)]x_j}\]</span> <span class="math display">\[=-\frac{1}{m}\sum_{i=1}^m{[y_i-h_\theta(x)]x_j}=\frac{1}{m}\sum_{i=1}^m{[h_\theta(x)-y_i]x_j}\]</span> 最后<span class="math inline">\(\Theta\)</span>的更新过程可以写为： <span class="math display">\[\theta_j=\theta_j-\alpha \frac{1}{m}\sum_{i=1}^m{[h_\theta(x)-y_i]x_j}\]</span></p>
+<h4 id="加入正则项">加入正则项</h4>
+<p>欠拟合：拟合用的参数过少，导致无法准确拟合训练数据，准确率比较低。</p>
+<p>过拟合：拟合用到的参数太多，导致虽然可以非常准确的拟合训练数据，但无法进行泛化。 <img src="/2017/05/14/LogisticRegression/overfiting.png" alt="三种拟合状态" title="三种拟合状态"> 左图为欠拟合，中图合适，右图为过拟合；</p>
+<p>由于很难选择一个好的参数数量去防止过拟合和欠拟合，这时就需要对损失函数进行正则化， 即在后面增加一个“惩罚香项”，当参数的值较大时损失函数较大，这样训练出来的模型会尽可能的使参数变小， 即模型较为简单，避免出现过拟合。</p>
+<p>这里采用参数的L2范数（关于L1、L2范数的介绍后续补充），增加一项<span class="math inline">\(\frac{\lambda}{2m}\sum_{j=1}^n{ \theta_{j}^2}\)</span> 损失函数变为： <span class="math display">\[J(x)=-\frac{1}{m}\sum_{i=1}^m{(y_i \log{h_\theta(x)}+(1-y_i)\log(1-h_\theta(x)))} + \frac{\lambda}{2m}\sum_{j=1}^n{ \theta_{j}^2}\]</span> 其中m为训练样本数，n为迭代的次数；</p>
+<p>梯度变为： <span class="math display">\[\frac{\delta}{\delta \theta_j}J(x)=\frac{1}{m}\sum_{i=1}^m{[h_\theta(x)-y_i]x_j + \frac{\lambda}{m} \theta_j}\]</span> 权值<span class="math inline">\(\Theta\)</span>的更新变为： <span class="math display">\[\theta_j=\theta_j-\frac{\alpha}{m}\sum_{i=1}^m{[h_\theta(x)-y_i]x_j} - \frac{\lambda}{m} \theta_j\]</span></p>
+<h3 id="代码展示">代码展示</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">def logisticRegression(data, alpha, lamda):</div><div class="line">    n = len(data[0]) - 1</div><div class="line">    w = [0 <span class="keyword">for</span> x <span class="keyword">in</span> range(n)] <span class="comment">#初始化权重列表</span></div><div class="line">    w2 = [0 <span class="keyword">for</span> x <span class="keyword">in</span> range(n)]</div><div class="line">    <span class="keyword">for</span> <span class="built_in">times</span> <span class="keyword">in</span> range(10000):<span class="comment">#迭代10000次</span></div><div class="line">        <span class="keyword">for</span> d <span class="keyword">in</span> data:</div><div class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</div><div class="line">                w2[i] = w[i]-alpha*(h(w,d)<span class="_">-d</span>[n])*d[i]-lamda*w[i]</div><div class="line">                <span class="comment">#h(w,d)是决策函数，d[n]是类别(0或1)</span></div><div class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</div><div class="line">                w[i] = w2[i]</div><div class="line">    <span class="built_in">return</span> w</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/05/14/LogisticRegression/" data-id="cj2oqtc0j0001n4n7yvq79io6" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+ 
+
+
+  
     <article id="post-博客搭建踩坑记录" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/05/13/博客搭建踩坑记录/" class="article-date">
@@ -93,16 +201,22 @@
       
         <!-- Table of Contents -->
         
-        <h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><p><a href="http://www.cnblogs.com/hellomagic/p/5237096.html" target="_blank" rel="external">GitHub windows客户端简单使用教程</a><br><a href="https://linghucong.js.org/2016/04/15/2016-04-15-hexo-github-pages-blog/" target="_blank" rel="external">手把手教你使用Hexo + Github Pages搭建个人独立博客</a><br>在朋友的帮助下少踩了很多坑，博客搭建的还算顺利</p>
-<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><p>搭建环境：win7</p>
-<h3 id="1-Git-bash"><a href="#1-Git-bash" class="headerlink" title="1.Git bash"></a>1.Git bash</h3><p>按照文档1安装完github客户端后，主要在Git bash进行命令行操作</p>
-<h3 id="2-Hexo"><a href="#2-Hexo" class="headerlink" title="2.Hexo"></a>2.Hexo</h3><p>Hexo 是一个简单地、轻量地、基于Node的一个静态博客框架,可以方便的生成静态网页托管在github上。</p>
-<h2 id="踩到的坑"><a href="#踩到的坑" class="headerlink" title="踩到的坑"></a>踩到的坑</h2><h3 id="数学公式不能被正常渲染"><a href="#数学公式不能被正常渲染" class="headerlink" title="数学公式不能被正常渲染"></a>数学公式不能被正常渲染</h3><p>按照文档<a href="http://www.jianshu.com/p/7ab21c7f0674" target="_blank" rel="external">在Hexo中渲染MathJax数学公式</a>操作后，还是不行。<br>在Google查找原因后，安装了两个工具：<a href="http://www.pandoc.org/installing.html" target="_blank" rel="external">pandoc</a>、<a href="http://www.latex-project.org/get/" target="_blank" rel="external">latex</a>后，问题成功解决。<br>更多的踩坑记录请参考<a href="http://reset.pub/2017/03/21/hexo/" target="_blank" rel="external">朋友博客</a></p>
+        <h2 id="参考文档">参考文档</h2>
+<p><a href="http://www.cnblogs.com/hellomagic/p/5237096.html" target="_blank" rel="external">GitHub windows客户端简单使用教程</a> <a href="https://linghucong.js.org/2016/04/15/2016-04-15-hexo-github-pages-blog/" target="_blank" rel="external">手把手教你使用Hexo + Github Pages搭建个人独立博客</a> 在朋友的帮助下少踩了很多坑，博客搭建的还算顺利</p>
+<h2 id="步骤">步骤</h2>
+<p>搭建环境：win7</p>
+<h3 id="git-bash">1.Git bash</h3>
+<p>按照文档1安装完github客户端后，主要在Git bash进行命令行操作</p>
+<h3 id="hexo">2.Hexo</h3>
+<p>Hexo 是一个简单地、轻量地、基于Node的一个静态博客框架,可以方便的生成静态网页托管在github上。</p>
+<h2 id="踩到的坑">踩到的坑</h2>
+<h3 id="数学公式不能被正常渲染">数学公式不能被正常渲染</h3>
+<p>按照文档<a href="http://www.jianshu.com/p/7ab21c7f0674" target="_blank" rel="external">在Hexo中渲染MathJax数学公式</a>操作后，还是不行。 在Google查找原因后，安装了两个工具：<a href="http://www.pandoc.org/installing.html" target="_blank" rel="external">pandoc</a>、<a href="http://www.latex-project.org/get/" target="_blank" rel="external">latex</a>后，问题成功解决。 更多的踩坑记录请参考<a href="http://reset.pub/2017/03/21/hexo/" target="_blank" rel="external">朋友博客</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/05/13/博客搭建踩坑记录/" data-id="cj2m5n9u10004d0n7xsi0dus2" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/05/13/博客搭建踩坑记录/" data-id="cj2oqtc150007n4n7t8rz7ukx" class="article-share-link">分享</a>
       
       
       
@@ -138,12 +252,12 @@
       
         <!-- Table of Contents -->
         
-        <p>欢迎光临我的博客，首先要感谢git社区和强大的hexo博客框架，给我们提供了一个交流分享的平台。<br>在以后的时间里，本博客将陆续更新机器学习和大数据平台的技术经验，请各位博友不吝赐教，共同交流学习。</p>
+        <p>欢迎光临我的博客，首先要感谢git社区和强大的hexo博客框架，给我们提供了一个交流分享的平台。 在以后的时间里，本博客将陆续更新机器学习和大数据平台的技术经验，请各位博友不吝赐教，共同交流学习。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/05/13/博客介绍/" data-id="cj2m5n9tu0001d0n79ux28dyn" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/05/13/博客介绍/" data-id="cj2oqtc0d0000n4n7iaml0sem" class="article-share-link">分享</a>
       
       
       
@@ -180,19 +294,24 @@
         <!-- Table of Contents -->
         
         <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
+<h2 id="quick-start">Quick Start</h2>
+<h3 id="create-a-new-post">Create a new post</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
 <p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
+<h3 id="run-server">Run server</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
 <p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
+<h3 id="generate-static-files">Generate static files</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
 <p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
+<h3 id="deploy-to-remote-sites">Deploy to remote sites</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
 <p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/05/13/hello-world/" data-id="cj2m5n9vb0009d0n7zjee7gb8" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/05/13/hello-world/" data-id="cj2oqtc0r0004n4n7p0w04zs8" class="article-share-link">分享</a>
       
       
       
@@ -233,19 +352,20 @@
         <!-- Table of Contents -->
         
         <hr>
-<h3 id="如下举例"><a href="#如下举例" class="headerlink" title="如下举例"></a>如下举例</h3><pre><code>$$\sum_{i=1}^n a_i=0$$
-</code></pre><p>$$\sum_{i=1}^n a_i=0$$</p>
-<pre><code>$$f(x_1,x_2,\ldots,x_n) = x_1^2 + x_2^2 + \cdots + x_n^2$$ 
-</code></pre><p>$$f(x_1,x_2,\ldots,x_n) = x_1^2 + x_2^2 + \cdots + x_n^2$$ </p>
-<pre><code>$$\left(\frac{\sqrt x}{y^3}\right)$$
-</code></pre><p>$$\left(\frac{\sqrt x}{y^3}\right)$$</p>
-<pre><code>$$\sum_{i=0}^n i^2 = \frac{(n^2+n)(2n+1)}{6}$$
-</code></pre><p>$$\sum_{i=0}^n i^2 = \frac{(n^2+n)(2n+1)}{6}$$</p>
+<h3 id="如下举例">如下举例</h3>
+<pre><code>$$\sum_{i=1}^n a_i=0$$</code></pre>
+<p><span class="math display">\[\sum_{i=1}^n a_i=0\]</span></p>
+<pre><code>$$f(x_1,x_2,\ldots,x_n) = x_1^2 + x_2^2 + \cdots + x_n^2$$ </code></pre>
+<p><span class="math display">\[f(x_1,x_2,\ldots,x_n) = x_1^2 + x_2^2 + \cdots + x_n^2\]</span></p>
+<pre><code>$$\left(\frac{\sqrt x}{y^3}\right)$$</code></pre>
+<p><span class="math display">\[\left(\frac{\sqrt x}{y^3}\right)\]</span></p>
+<pre><code>$$\sum_{i=0}^n i^2 = \frac{(n^2+n)(2n+1)}{6}$$</code></pre>
+<p><span class="math display">\[\sum_{i=0}^n i^2 = \frac{(n^2+n)(2n+1)}{6}\]</span></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/05/12/Mathjax测试帖/" data-id="cj2m5n9to0000d0n7rn8tj1to" class="article-share-link">分享</a>
+      <a data-url="http://yoursite.com/2017/05/12/Mathjax测试帖/" data-id="cj2oqtc0q0003n4n7h854u8jd" class="article-share-link">分享</a>
       
       
       
@@ -315,6 +435,14 @@
       <ul>
         
           <li>
+            <a href="/2017/05/14/Feature-Selection/">Feature Selection</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/14/LogisticRegression/">逻辑回归总结</a>
+          </li>
+        
+          <li>
             <a href="/2017/05/13/博客搭建踩坑记录/">博客搭建踩坑记录</a>
           </li>
         
@@ -326,10 +454,6 @@
             <a href="/2017/05/13/hello-world/">Hello World</a>
           </li>
         
-          <li>
-            <a href="/2017/05/12/Mathjax测试帖/">Mathjax测试帖</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -339,7 +463,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title archive">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">4</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a><span class="archive-list-count">6</span></li></ul>
     </div>
   </div>
 

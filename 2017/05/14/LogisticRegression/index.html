@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>逻辑回归总结 | LJZ&#39;s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="什么是逻辑回归 线性回归是直接将特征值和其对应的概率相乘得到一个结果，逻辑回归是在这个结果上加个逻辑函数（Sigmod函数）。 就相当于y=f(x)，表明自变量x（特征）与因变量y的关系。 Logistic回归的因变量可以是二分类，也能使多分类（Softmax回归），但二分类在实际中更常用，也更容易解释。 Logistic回归的自变量可以使连续的（如身高，体重，年龄），也可以离散的（如性别、学">
+<meta property="og:type" content="article">
+<meta property="og:title" content="逻辑回归总结">
+<meta property="og:url" content="http://yoursite.com/2017/05/14/LogisticRegression/index.html">
+<meta property="og:site_name" content="LJZ&#39;s blog">
+<meta property="og:description" content="什么是逻辑回归 线性回归是直接将特征值和其对应的概率相乘得到一个结果，逻辑回归是在这个结果上加个逻辑函数（Sigmod函数）。 就相当于y=f(x)，表明自变量x（特征）与因变量y的关系。 Logistic回归的因变量可以是二分类，也能使多分类（Softmax回归），但二分类在实际中更常用，也更容易解释。 Logistic回归的自变量可以使连续的（如身高，体重，年龄），也可以离散的（如性别、学">
+<meta property="og:image" content="http://yoursite.com/2017/05/14/LogisticRegression/overfiting.png">
+<meta property="og:updated_time" content="2017-05-16T08:00:36.509Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="逻辑回归总结">
+<meta name="twitter:description" content="什么是逻辑回归 线性回归是直接将特征值和其对应的概率相乘得到一个结果，逻辑回归是在这个结果上加个逻辑函数（Sigmod函数）。 就相当于y=f(x)，表明自变量x（特征）与因变量y的关系。 Logistic回归的因变量可以是二分类，也能使多分类（Softmax回归），但二分类在实际中更常用，也更容易解释。 Logistic回归的自变量可以使连续的（如身高，体重，年龄），也可以离散的（如性别、学">
+<meta name="twitter:image" content="http://yoursite.com/2017/05/14/LogisticRegression/overfiting.png">
+  
+    <link rel="alternate" href="/atom.xml" title="LJZ&#39;s blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    
+    <div id="header-inner" class="inner">
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">首页</a>
+        
+          <a class="main-nav-link" href="/archives">归档</a>
+        
+          <a class="main-nav-link" href="/about">关于</a>
+        
+      </nav>
+      
+    </div>
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">LJZ&#39;s blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Just for fun</a>
+        </h2>
+      
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-LogisticRegression" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/05/14/LogisticRegression/" class="article-date">
+  <time datetime="2017-05-14T06:31:01.000Z" itemprop="datePublished">2017-05-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      逻辑回归总结
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <!-- Table of Contents -->
+        
+        <h3 id="什么是逻辑回归">什么是逻辑回归</h3>
+<p>线性回归是直接将特征值和其对应的概率相乘得到一个结果，逻辑回归是在这个结果上加个逻辑函数（Sigmod函数）。 就相当于y=f(x)，表明自变量x（特征）与因变量y的关系。</p>
+<p>Logistic回归的因变量可以是二分类，也能使多分类（Softmax回归），但二分类在实际中更常用，也更容易解释。 Logistic回归的自变量可以使连续的（如身高，体重，年龄），也可以离散的（如性别、学历）。</p>
+<h3 id="构建逻辑回归的步骤">构建逻辑回归的步骤</h3>
+<ul>
+<li>构造预测函数h(x)=f(thetax)</li>
+<li>构造目标函数J(x),即损失函数</li>
+<li>利用梯度下降法求解使目标函数最小的 theta</li>
+</ul>
+<h4 id="构造分类决策函数hx">构造分类决策函数h(x)</h4>
+<p>线性分类的边界是：<span class="math display">\[f(x) = \Theta^T X = \sum_{i=1}^n \theta_i x_i\]</span> 逻辑回归的分类在此基础上套了个<a href="https://en.wikipedia.org/wiki/Sigmoid_function" title="sigmoid function" target="_blank" rel="external">Sigmod函数</a>得到预测函数: <span class="math display">\[h_\theta(x)=\frac{1}{1+e^{(-\Theta^T X)}}\]</span> 函数<span class="math inline">\(h_\theta\)</span>的含义为：当分类为1时的概率，所以对于输入x，分类为1和0的概率分别为： <span class="math display">\[P(y=1 | X;\Theta)=h_\theta(x)\]</span> <span class="math display">\[P(y=0 | X;\Theta)=1-h_\theta(x)\]</span> 可以写为： <span class="math display">\[P(y | X; \Theta) = (h_\theta(x)^y)(1-h_\theta(x))^{(1-y)} \]</span></p>
+<h4 id="构造损失函数jx">构造损失函数J(x)</h4>
+<p>似然函数l(x)为: <span class="math display">\[l(x)= \prod_{i=1}^m p_i = \prod_{i=1}^m h_\theta(x)^{y_i}(1-h_\theta(x))^{(1-y_i)}\]</span> 对数似然L(x): <span class="math display">\[L(x)=\log{l(x)}=\log\prod_{i=1}^m h_\theta(x)^{y_i}(1-h_\theta(x))^{(1-y_i)}\]</span> <span class="math display">\[=\sum_{i=1}^m{(y_i \log{h_\theta(x)}+(1-y_i)\log(1-h_\theta(x)))}\]</span> 损失函数J(x):</p>
+<p>最大似然估计求使L(x)最大的<span class="math inline">\(\Theta\)</span>，需要用到梯度上升算法。 <span class="math display">\[J(x)=-\frac{1}{m} L(x)\]</span> 因为乘了个<span class="math inline">\(-\frac{1}{m}\)</span>，所以要用梯度下降法求使J(x)最小的<span class="math inline">\(\Theta\)</span>。</p>
+<h4 id="求解使jx最小的theta">求解使J(x)最小的<span class="math inline">\(\Theta\)</span></h4>
+<p>使用梯度下降法求J(x),<span class="math inline">\(\Theta\)</span>的更新过程为： <span class="math display">\[\theta_j=\theta_j-\alpha\frac{\delta}{\delta \theta_j}J(x)\]</span> 其中，<span class="math inline">\(\alpha\)</span>为步长，<span class="math inline">\(\frac{\delta}{\delta \theta_j}J(x)\)</span>为梯度。</p>
+<p><span class="math display">\[\frac{\delta}{\delta \theta_j}J(x)=-\frac{1}{m}\sum_{i=1}^m{\frac{\delta}{\delta \theta_j}{(y_i \log{h_\theta(x)}+(1-y_i)\log(1-h_\theta(x)))}}\]</span> <span class="math display">\[=-\frac{1}{m}\sum_{i=1}^m{(y_i \frac{1}{h_\theta(x)}+(1-y_i)\frac{-1}{1-h_\theta(x)})\frac{\delta h_\theta(x)}{\delta \theta_j}}\]</span> 其中 <span class="math display">\[\frac{\delta h_\theta(x)}{\delta \theta_j}=\frac{\delta}{\delta \theta_j}(1+\frac{1}{1+e^{-\Theta^T X}})\]</span> <span class="math display">\[=h_\theta(x)(1-h_\theta(x))\frac{\delta \Theta^T X}{\delta \theta_j}=h_\theta(x)(1-h_\theta(x))x_j\]</span> 所以： <span class="math display">\[\frac{\delta}{\delta \theta_j}J(x)=-\frac{1}{m}\sum_{i=1}^m{(y_i \frac{1}{h_\theta(x)}+(1-y_i)\frac{-1}{1-h_\theta(x)})*h_\theta(x)(1-h_\theta(x))x_j}\]</span> <span class="math display">\[=-\frac{1}{m}\sum_{i=1}^m{[y_i(1-h_\theta(x))-(1-y_i)h_\theta(x)]x_j}\]</span> <span class="math display">\[=-\frac{1}{m}\sum_{i=1}^m{[y_i-h_\theta(x)]x_j}=\frac{1}{m}\sum_{i=1}^m{[h_\theta(x)-y_i]x_j}\]</span> 最后<span class="math inline">\(\Theta\)</span>的更新过程可以写为： <span class="math display">\[\theta_j=\theta_j-\alpha \frac{1}{m}\sum_{i=1}^m{[h_\theta(x)-y_i]x_j}\]</span></p>
+<h4 id="加入正则项">加入正则项</h4>
+<p>欠拟合：拟合用的参数过少，导致无法准确拟合训练数据，准确率比较低。</p>
+<p>过拟合：拟合用到的参数太多，导致虽然可以非常准确的拟合训练数据，但无法进行泛化。 <img src="/2017/05/14/LogisticRegression/overfiting.png" alt="三种拟合状态" title="三种拟合状态"> 左图为欠拟合，中图合适，右图为过拟合；</p>
+<p>由于很难选择一个好的参数数量去防止过拟合和欠拟合，这时就需要对损失函数进行正则化， 即在后面增加一个“惩罚香项”，当参数的值较大时损失函数较大，这样训练出来的模型会尽可能的使参数变小， 即模型较为简单，避免出现过拟合。</p>
+<p>这里采用参数的L2范数（关于L1、L2范数的介绍后续补充），增加一项<span class="math inline">\(\frac{\lambda}{2m}\sum_{j=1}^n{ \theta_{j}^2}\)</span> 损失函数变为： <span class="math display">\[J(x)=-\frac{1}{m}\sum_{i=1}^m{(y_i \log{h_\theta(x)}+(1-y_i)\log(1-h_\theta(x)))} + \frac{\lambda}{2m}\sum_{j=1}^n{ \theta_{j}^2}\]</span> 其中m为训练样本数，n为迭代的次数；</p>
+<p>梯度变为： <span class="math display">\[\frac{\delta}{\delta \theta_j}J(x)=\frac{1}{m}\sum_{i=1}^m{[h_\theta(x)-y_i]x_j + \frac{\lambda}{m} \theta_j}\]</span> 权值<span class="math inline">\(\Theta\)</span>的更新变为： <span class="math display">\[\theta_j=\theta_j-\frac{\alpha}{m}\sum_{i=1}^m{[h_\theta(x)-y_i]x_j} - \frac{\lambda}{m} \theta_j\]</span></p>
+<h3 id="代码展示">代码展示</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">def logisticRegression(data, alpha, lamda):</div><div class="line">    n = len(data[0]) - 1</div><div class="line">    w = [0 <span class="keyword">for</span> x <span class="keyword">in</span> range(n)] <span class="comment">#初始化权重列表</span></div><div class="line">    w2 = [0 <span class="keyword">for</span> x <span class="keyword">in</span> range(n)]</div><div class="line">    <span class="keyword">for</span> <span class="built_in">times</span> <span class="keyword">in</span> range(10000):<span class="comment">#迭代10000次</span></div><div class="line">        <span class="keyword">for</span> d <span class="keyword">in</span> data:</div><div class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</div><div class="line">                w2[i] = w[i]-alpha*(h(w,d)<span class="_">-d</span>[n])*d[i]-lamda*w[i]</div><div class="line">                <span class="comment">#h(w,d)是决策函数，d[n]是类别(0或1)</span></div><div class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</div><div class="line">                w[i] = w2[i]</div><div class="line">    <span class="built_in">return</span> w</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/05/14/LogisticRegression/" data-id="cj2oqtc0j0001n4n7yvq79io6" class="article-share-link">分享</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/05/14/Feature-Selection/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">上一篇</strong>
+      <div class="article-nav-title">
+        
+          Feature Selection
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/05/13/博客搭建踩坑记录/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">下一篇</strong>
+      <div class="article-nav-title">博客搭建踩坑记录</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+ 
+     
+  <div class="comments" id="comments">
+    
+     
+       
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+  </div>
+ 
+  
+
+</section>
+           
+    <aside id="sidebar">
+  
+    
+
+  
+    
+    <div class="widget-wrap">
+    
+      <div class="widget" id="toc-widget-fixed">
+      
+        <strong class="toc-title">文章目录</strong>
+        <div class="toc-widget-list">
+              <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是逻辑回归"><span class="toc-number">1.</span> <span class="toc-text">什么是逻辑回归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#构建逻辑回归的步骤"><span class="toc-number">2.</span> <span class="toc-text">构建逻辑回归的步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#构造分类决策函数hx"><span class="toc-number">2.1.</span> <span class="toc-text">构造分类决策函数h(x)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#构造损失函数jx"><span class="toc-number">2.2.</span> <span class="toc-text">构造损失函数J(x)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#求解使jx最小的theta"><span class="toc-number">2.3.</span> <span class="toc-text">求解使J(x)最小的\(\Theta\)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#加入正则项"><span class="toc-number">2.4.</span> <span class="toc-text">加入正则项</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码展示"><span class="toc-number">3.</span> <span class="toc-text">代码展示</span></a></li></ol>
+          </div>
+      </div>
+    </div>
+
+  
+    
+
+  
+    
+  
+    
+  
+    
+
+  
+    
+  
+    <!--微信公众号二维码-->
+
+
+  
+</aside>
+
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-left">
+      &copy; 2014 - 2017 ljz&nbsp;|&nbsp;
+      主题 <a href="https://github.com/giscafer/hexo-theme-cafe/" target="_blank">Cafe</a>
+    </div>
+     <div id="footer-right">
+      联系方式&nbsp;|&nbsp;ljzolgy@163.com
+    </div>
+  </div>
+</footer>
+ <script src="/jquery/jquery.min.js"></script>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">首页</a>
+  
+    <a href="/archives" class="mobile-nav-link">归档</a>
+  
+    <a href="/about" class="mobile-nav-link">关于</a>
+  
+</nav>
+    <img class="back-to-top-btn" src="/images/fly-to-top.png"/>
+<script>
+// Elevator script included on the page, already.
+window.onload = function() {
+  var elevator = new Elevator({
+    selector:'.back-to-top-btn',
+    element: document.querySelector('.back-to-top-btn'),
+    duration: 1000 // milliseconds
+  });
+}
+</script>
+      
+
+  
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "e2fb4051c49842xxce669e634bc983f",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+    
+
+  
+
+
+
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      })
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      })
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+ <script src="/js/is.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/js/elevator.js"></script>
+  </div>
+</body>
+</html>
