@@ -12,7 +12,10 @@
 <meta property="og:site_name" content="LJZ&#39;s blog">
 <meta property="og:description" content="前几天项目主管给了几篇相关的论文，看完后给同事们做一个分享。 综述 什么是特征选择？  从全部特征中选取一个特征子集，使构造出来的模型更好。  为什么进行特征选择？  在机器学习的实际应用中，特征数量往往较多，其中可能存在不相关的特征，特征之间也可能存在相互依赖，容易导致如下的后果： * 分析特征、训练模型耗时长 * 模型复杂、推广能力差 * 引起维度灾难  维度灾难的危害">
 <meta property="og:image" content="http://yoursite.com/2017/05/14/Feature-Selection/process.PNG">
-<meta property="og:updated_time" content="2017-05-18T10:33:17.757Z">
+<meta property="og:image" content="http://yoursite.com/2017/05/14/Feature-Selection/filter.png">
+<meta property="og:image" content="http://yoursite.com/2017/05/14/Feature-Selection/waper.png">
+<meta property="og:image" content="http://yoursite.com/2017/05/14/Feature-Selection/em.png">
+<meta property="og:updated_time" content="2017-05-18T13:28:44.071Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Feature Selection">
 <meta name="twitter:description" content="前几天项目主管给了几篇相关的论文，看完后给同事们做一个分享。 综述 什么是特征选择？  从全部特征中选取一个特征子集，使构造出来的模型更好。  为什么进行特征选择？  在机器学习的实际应用中，特征数量往往较多，其中可能存在不相关的特征，特征之间也可能存在相互依赖，容易导致如下的后果： * 分析特征、训练模型耗时长 * 模型复杂、推广能力差 * 引起维度灾难  维度灾难的危害">
@@ -43,7 +46,7 @@
         
           <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
@@ -117,11 +120,58 @@
 <blockquote>
 <p>特征选择的一般过程包括：<br> 1.首先从特征全集中<code>&lt;产生&gt;</code>出一个特征子集;<br> 2.然后用评价函数对该特征子集进行<code>&lt;评价&gt;</code>;<br> 3.评价的结果与<code>&lt;停止准则&gt;</code>进行比较，若评价结果比停止准则好就停止，否则就继续产生下一组特征子集，继续进行特征选择;<br> 4.选出来的特征子集一般还要<code>&lt;验证&gt;</code>其有效性;</p>
 </blockquote>
+<p>从流程图可以看出，特征选择主要包括两部分：产生过程和评价函数；停止准则是根据经验或多次交叉验证得到的，验证过程是特征选择子集确定后的操作。<br> 下面展开介绍产生过程和评价函数：</p>
+<h3 id="产生过程">产生过程</h3>
+<blockquote>
+<ul>
+<li>特征子集的产生可以看作是一个搜索过程，搜索空间中的每一个状态都是一个可能特征子集</li>
+<li>搜索的算法分为<strong>完全搜索</strong>(Complete)，<strong>启发式搜索</strong>(Heuristic)，<strong>随机搜索</strong>(Random) 3大类</li>
+</ul>
+</blockquote>
+<h4 id="搜索算法之完全搜索">搜索算法之完全搜索</h4>
+<p>完全搜索分为<strong>穷举搜索</strong>与<strong>非穷举搜索</strong>两类 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">广度优先搜索(BFS )：枚举了所有的特征组合，属于穷举搜索，时间复杂度是O(2n)，实用性不高</div><div class="line">分支限界搜索(BAB)：在穷举搜索的基础上加入分支限界。例如：若断定某些分支不可能搜索出比当前找到的最优解更优的解，则可以剪掉这些分支。</div><div class="line">定向搜索 (BS)：首先选择N个得分最高的特征作为特征子集，将其加入一个限制最大长度的优先队列，每次从队列中取出得分最高的子集，然后穷举向该子集加入1个特征后产生的所有特征集，将这些特征集加入队列。</div><div class="line">最优优先搜索(Best First Search)：与定向搜索类似，唯一的不同点是不限制优先队列的长度。</div></pre></td></tr></table></figure></p>
+<h4 id="搜索算法之启发式搜索">搜索算法之启发式搜索</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">序列前向选择(SFS)</div><div class="line">序列后向选择(SBS)</div><div class="line">双向搜索(BDS)</div><div class="line">增L去R选择算法 (LRS):L和R的选择是关键</div><div class="line">序列浮动选择(Sequential Floating Selection)</div><div class="line">决策树(DTM)</div></pre></td></tr></table></figure>
+<h4 id="搜索算法之随机搜索">搜索算法之随机搜索</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">随机产生序列选择算法(RGSS)：随机产生一个特征子集，然后在该子集上执行SFS与SBS算法</div><div class="line">模拟退火算法(SA)：以一定的概率来接受一个比当前解要差的解，因此有可能会跳出这个局部的最优解，达到一个全局次最优解</div><div class="line">遗传算法(GA)：首先随机产生一批特征子集，并用评价函数给这些特征子集评分，然后通过交叉、突变等操作繁殖出下一代的特征子集，并且评分越高的特征子集被选中参加繁殖的概率越高。这样经过N代的繁殖和优胜劣汰后，种群中就可能产生了评价函数值最高的特征子集。</div><div class="line"></div><div class="line">**共同缺点**：依赖于随机因素，有实验结果难以重现</div></pre></td></tr></table></figure>
+<h3 id="评价函数">评价函数</h3>
+<p>作用是评价产生过程所提供的特征子集的好坏</p>
+<blockquote>
+<ul>
+<li>按照工作原理，评价函数可分为三大类：<strong>过滤模型、封装模型、混合模型</strong></li>
+<li>按照功能，评价函数可分为五类：<strong>相关性，距离，信息增益，一致性和分类错误率</strong></li>
+</ul>
+</blockquote>
+<h4 id="过滤模型">过滤模型</h4>
+<div class="figure">
+<img src="/2017/05/14/Feature-Selection/filter.png" title="filter model">
+
+</div>
+<blockquote>
+<p>根据特征子集内部的特点来衡量其好坏，如欧氏距离、相关性、信息熵等<br> 特征子集在学习算法运行之前就被选定<br> 学习算法用于测试最终特征子集的性能<br> 特点：简单、效率高，但精度差</p>
+</blockquote>
+<h4 id="封装模型">封装模型</h4>
+<div class="figure">
+<img src="/2017/05/14/Feature-Selection/waper.png" title="Wrapper Model">
+
+</div>
+<blockquote>
+<p>学习算法封装在特征选择的过程中，用特征子集在学习算法上得到的挖掘性能作为特征子集优劣的评估准则。 与过滤模型相比，精度高、但效率低。 根本区别在于对学习算法的使用方式</p>
+</blockquote>
+<h4 id="混合模型">混合模型</h4>
+<div class="figure">
+<img src="/2017/05/14/Feature-Selection/em.png" title="Embedded Model">
+
+</div>
+<blockquote>
+<p>混合模型把这两种模型进行组合，先用过滤模式进行初选，再用封装模型来获得最佳的特征子集。</p>
+</blockquote>
+<p>参考资料： http://chuansong.me/n/2717748 http://www.36dsj.com/archives/69769?from=singlemessage</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/05/14/Feature-Selection/" data-id="cj2ucquxc0001dkn7s0wakhzt" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/05/14/Feature-Selection/" data-id="cj2ud4b3p0009asn77mhbfv44" class="article-share-link">分享</a>
       
       
       
@@ -132,7 +182,7 @@
 <nav id="article-nav">
   
     <a href="/2017/05/18/Markdown语法举例/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
+      <strong class="article-nav-caption">上一篇</strong>
       <div class="article-nav-title">
         
           Markdown语法举例
@@ -142,7 +192,7 @@
   
   
     <a href="/2017/05/14/LogisticRegression/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
+      <strong class="article-nav-caption">下一篇</strong>
       <div class="article-nav-title">逻辑回归总结</div>
     </a>
   
@@ -174,9 +224,9 @@
     
       <div class="widget" id="toc-widget-fixed">
       
-        <strong class="toc-title">Content</strong>
+        <strong class="toc-title">文章目录</strong>
         <div class="toc-widget-list">
-              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#综述"><span class="toc-number">1.</span> <span class="toc-text">综述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#特征选择流程"><span class="toc-number">2.</span> <span class="toc-text">特征选择流程</span></a></li></ol>
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#综述"><span class="toc-number">1.</span> <span class="toc-text">综述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#特征选择流程"><span class="toc-number">2.</span> <span class="toc-text">特征选择流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#产生过程"><span class="toc-number">2.1.</span> <span class="toc-text">产生过程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#搜索算法之完全搜索"><span class="toc-number">2.1.1.</span> <span class="toc-text">搜索算法之完全搜索</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#搜索算法之启发式搜索"><span class="toc-number">2.1.2.</span> <span class="toc-text">搜索算法之启发式搜索</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#搜索算法之随机搜索"><span class="toc-number">2.1.3.</span> <span class="toc-text">搜索算法之随机搜索</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#评价函数"><span class="toc-number">2.2.</span> <span class="toc-text">评价函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#过滤模型"><span class="toc-number">2.2.1.</span> <span class="toc-text">过滤模型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#封装模型"><span class="toc-number">2.2.2.</span> <span class="toc-text">封装模型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#混合模型"><span class="toc-number">2.2.3.</span> <span class="toc-text">混合模型</span></a></li></ol></li></ol></li></ol>
           </div>
       </div>
     </div>
@@ -206,10 +256,10 @@
   <div class="outer">
     <div id="footer-left">
       &copy; 2014 - 2017 ljz&nbsp;|&nbsp;
-      Theme by <a href="https://github.com/giscafer/hexo-theme-cafe/" target="_blank">Cafe</a>
+      主题 <a href="https://github.com/giscafer/hexo-theme-cafe/" target="_blank">Cafe</a>
     </div>
      <div id="footer-right">
-      Contact&nbsp;|&nbsp;ljzolgy@163.com
+      联系方式&nbsp;|&nbsp;ljzolgy@163.com
     </div>
   </div>
 </footer>
